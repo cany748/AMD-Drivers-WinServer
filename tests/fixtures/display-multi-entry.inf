@@ -1,0 +1,26 @@
+; SYNTHETIC TEST FIXTURE - written by hand for the AMD-Drivers-WinServer tests.
+; Two manufacturer entries and comments inside [Manufacturer]; not an AMD file.
+
+[Version]
+Signature             = "$Windows NT$"
+Class                 = Display
+CatalogFile           = generic.cat
+CatalogFile.NTamd64   = fixture64.cat
+DriverVer             = 01/02/2026,31.0.1.2
+
+[Manufacturer]
+; first entry has nothing for the target device
+%Other%  = Other.Mfg, NTamd64.10.0.1..19041
+%Vendor% = Vendor.Mfg, NTamd64.10.0.1..19041 ; trailing comment, with a comma
+
+[Other.Mfg.NTamd64.10.0.1..19041]
+%DevAAAA% = other_install, PCI\VEN_1002&DEV_AAAA
+
+[Vendor.Mfg.NTamd64.10.0.1..19041]
+%Dev13C0% = fixture_igpu, PCI\VEN_1002&DEV_13C0&REV_C1, PCI\VEN_1002&DEV_13C0
+
+[Strings]
+Other   = "Other Fixture Vendor"
+Vendor  = "Fixture Vendor"
+DevAAAA = "Fixture AAAA"
+Dev13C0 = "Fixture Graphics"

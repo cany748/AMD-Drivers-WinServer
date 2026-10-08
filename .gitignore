@@ -1,0 +1,27 @@
+# Working directories produced by the tool (default WorkRoot is C:\AMD-Drivers-WinServer)
+/AMD-Drivers-WinServer/
+*.log
+state.json
+state.*.json
+
+# Never commit AMD driver payloads
+*.sys
+*.cat
+*.inf
+*.exe
+*.dll
+*.cab
+*.msi
+Packages/
+Drivers/
+
+# Synthetic, hand-written INF fixtures for the tests (see tests/fixtures/README.md)
+!tests/fixtures/*.inf
+
+# Certificates / keys
+*.cer
+*.pfx
+
+# OS noise
+Thumbs.db
+desktop.ini

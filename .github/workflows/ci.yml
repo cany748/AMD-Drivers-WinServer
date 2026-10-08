@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  analyze-and-test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install PSScriptAnalyzer and Pester
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module PSScriptAnalyzer -MinimumVersion 1.23.0 -Scope CurrentUser -Force
+          Install-Module Pester -MinimumVersion 5.6.0 -Scope CurrentUser -Force -SkipPublisherCheck
+
+      - name: PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          $issues = Invoke-ScriptAnalyzer -Path . -Recurse -Settings ./PSScriptAnalyzerSettings.psd1
+          $issues | Format-Table RuleName, Severity, ScriptName, Line, Message -AutoSize -Wrap
+          if ($issues) { throw "PSScriptAnalyzer reported $(@($issues).Count) issue(s)." }
+
+      - name: Pester (PowerShell 7)
+        shell: pwsh
+        run: |
+          $r = Invoke-Pester ./tests -Output Detailed -PassThru
+          if ($r.FailedCount -gt 0) { exit 1 }
+
+      - name: Pester (Windows PowerShell 5.1)
+        shell: powershell
+        run: |
+          Install-Module Pester -MinimumVersion 5.6.0 -Scope CurrentUser -Force -SkipPublisherCheck
+          Import-Module Pester -MinimumVersion 5.6.0
+          $r = Invoke-Pester ./tests -Output Detailed -PassThru
+          if ($r.FailedCount -gt 0) { exit 1 }

@@ -1,0 +1,42 @@
+; SYNTHETIC TEST FIXTURE - written by hand for the AMD-Drivers-WinServer tests.
+; It only imitates the layout of a display INF. It is not an AMD file and
+; contains no AMD content.
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = Display
+ClassGUID   = {4d36e968-e325-11ce-bfc1-08002be10318}
+Provider    = %Vendor%
+CatalogFile = fixture.cat ; main catalog
+DriverVer   = 07/15/2026, 32.0.21025.1004
+
+[Manufacturer]
+%Vendor% = Vendor.Mfg, NTamd64.10.0.1..19041, NTamd64.10.0.1..22000, NTamd64.10.0.1..99999
+
+[Vendor.Mfg.NTamd64.10.0.1..19041]
+%Old13C0% = fixture_old, PCI\VEN_1002&DEV_13C0&REV_C1
+
+[Vendor.Mfg.NTamd64.10.0.1..22000]
+%Dev13C0.1% = fixture_igpu, PCI\VEN_1002&DEV_13C0&REV_C1
+%Dev13C0.2% = fixture_igpu, PCI\VEN_1002&DEV_13C0&SUBSYS_7E611462&REV_C1
+%Dev13C0.3% = fixture_igpu, PCI\VEN_1002&DEV_13C0&SUBSYS_00000000&REV_C2 ; other board
+%Dev164E%   = fixture_igpu, PCI\VEN_1002&DEV_164E&REV_C1
+%Dev744C%   = fixture_dgpu, PCI\VEN_1002&DEV_744C&REV_C8
+
+[Vendor.Mfg.NTamd64.10.0.1..99999]
+%Dev13C0.1% = fixture_future, PCI\VEN_1002&DEV_13C0&REV_C1
+
+[fixture_igpu]
+CopyFiles = fixture.CopyFiles
+
+[fixture.CopyFiles]
+fixturekmd.sys
+
+[Strings]
+Vendor     = "Fixture Vendor"
+Old13C0    = "Fixture GPU (old)"
+Dev13C0.1  = "Fixture Graphics"
+Dev13C0.2  = "Fixture Graphics (board 7E61)"
+Dev13C0.3  = "Fixture Graphics (board 0000)"
+Dev164E    = "Fixture Graphics 164E"
+Dev744C    = "Fixture Discrete 744C"
